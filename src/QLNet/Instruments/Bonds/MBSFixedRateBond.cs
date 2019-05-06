@@ -47,11 +47,11 @@ namespace QLNet
          cashflows_ = expectedCashflows();
       }
 
-      public List<CashFlow> expectedCashflows()
+      public Leg expectedCashflows()
       {
          calcBondFactor();
 
-         List<CashFlow> expectedcashflows = new List<CashFlow>();
+         Leg expectedcashflows = new Leg();
 
          List<double> notionals = new InitializedList<double>(schedule_.Count);
          notionals[0] = notionals_[0];
@@ -91,7 +91,7 @@ namespace QLNet
       {
          Brent solver = new Brent();
          solver.setMaxEvaluations(100);
-         List<CashFlow> cf = expectedCashflows();
+         Leg cf = expectedCashflows();
 
          MonthlyYieldFinder objective = new MonthlyYieldFinder(notional(settlementDate()), cf, settlementDate());
          return solver.solve(objective, 1.0e-10, 0.02, 0.0, 1.0) / 100 ;
@@ -128,10 +128,10 @@ namespace QLNet
    public class MonthlyYieldFinder : ISolver1d
    {
       private double faceAmount_;
-      private List<CashFlow> cashflows_;
+      private Leg cashflows_;
       private Date settlement_;
 
-      public MonthlyYieldFinder(double faceAmount, List<CashFlow> cashflows, Date settlement)
+      public MonthlyYieldFinder(double faceAmount, Leg cashflows, Date settlement)
       {
          faceAmount_ = faceAmount;
          cashflows_ = cashflows;
@@ -147,7 +147,7 @@ namespace QLNet
 
    public partial class Utils
    {
-      public static double PVDifference(double faceAmount, List<CashFlow> cashflows, double yield, Date settlement)
+      public static double PVDifference(double faceAmount, Leg cashflows, double yield, Date settlement)
       {
          double price = 0.0;
          Date actualDate = new Date(1, 1, 1970) ;

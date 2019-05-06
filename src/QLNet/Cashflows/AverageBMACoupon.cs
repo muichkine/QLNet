@@ -247,11 +247,11 @@ namespace QLNet
          return this;
       }
 
-      public override List<CashFlow> value()
+      public override Leg value()
       {
          Utils.QL_REQUIRE(!notionals_.empty(), () => "no notional given");
 
-         List<CashFlow> cashflows = new List<CashFlow>();
+         Leg cashflows = new Leg();
 
          // the following is not always correct
          Calendar calendar = schedule_.calendar();

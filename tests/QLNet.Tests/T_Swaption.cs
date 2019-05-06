@@ -596,10 +596,10 @@ namespace TestSuite
                swap_u365.setPricingEngine(swapEngine);
                swap_a365.setPricingEngine(swapEngine);
 
-               List<CashFlow> swapFixedLeg_u360 = swap_u360.fixedLeg();
-               List<CashFlow> swapFixedLeg_a360 = swap_a360.fixedLeg();
-               List<CashFlow> swapFixedLeg_u365 = swap_u365.fixedLeg();
-               List<CashFlow> swapFixedLeg_a365 = swap_a365.fixedLeg();
+               Leg swapFixedLeg_u360 = swap_u360.fixedLeg();
+               Leg swapFixedLeg_a360 = swap_a360.fixedLeg();
+               Leg swapFixedLeg_u365 = swap_u365.fixedLeg();
+               Leg swapFixedLeg_a365 = swap_a365.fixedLeg();
 
                // FlatForward curves
                // FLOATING_POINT_EXCEPTION

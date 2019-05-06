@@ -72,7 +72,7 @@ namespace TestSuite
          }
 
          // utilities
-         public List<CashFlow> makeFixedLeg(Date sDate, int len)
+         public Leg makeFixedLeg(Date sDate, int len)
          {
             Date endDate = calendar.advance(sDate, len, TimeUnit.Years, convention);
             Schedule schedule = new Schedule(sDate, endDate, new Period(frequency), calendar,
@@ -83,7 +83,7 @@ namespace TestSuite
                    .withNotionals(nominals);
          }
 
-         public List<CashFlow> makeFloatingLeg(Date sDate, int len, double gearing = 1.0, double spread = 0.0)
+         public Leg makeFloatingLeg(Date sDate, int len, double gearing = 1.0, double spread = 0.0)
          {
             Date endDate = calendar.advance(sDate, len, TimeUnit.Years, convention);
             Schedule schedule = new Schedule(sDate, endDate, new Period(frequency), calendar,
@@ -99,7 +99,7 @@ namespace TestSuite
                    .withPaymentAdjustment(convention);
          }
 
-         public List<CashFlow> makeCapFlooredLeg(Date sDate, int len, List < double? > caps, List < double? > floors,
+         public Leg makeCapFlooredLeg(Date sDate, int len, List < double? > caps, List < double? > floors,
                                                  double volatility, double gearing = 1.0, double spread = 0.0)
          {
             Date endDate = calendar.advance(sDate, len, TimeUnit.Years, convention);
@@ -111,7 +111,7 @@ namespace TestSuite
             List<double> gearingVector = new InitializedList<double>(len, gearing);
             List<double> spreadVector = new InitializedList<double>(len, spread);
 
-            List<CashFlow> iborLeg = new IborLeg(schedule, index)
+            Leg iborLeg = new IborLeg(schedule, index)
             .withFloors(floors)
             .withPaymentDayCounter(index.dayCounter())
             .withFixingDays(fixingDays)
@@ -130,7 +130,7 @@ namespace TestSuite
             return new BlackCapFloorEngine(termStructure, vol);
          }
 
-         public CapFloor makeCapFloor(CapFloorType type, List<CashFlow> leg, double capStrike,
+         public CapFloor makeCapFloor(CapFloorType type, Leg leg, double capStrike,
                                       double floorStrike, double vol)
          {
             CapFloor result = null;
@@ -177,9 +177,9 @@ namespace TestSuite
          double tolerance = 1e-10;
 
          // fixed leg with zero rate
-         List<CashFlow> fixedLeg = vars.makeFixedLeg(vars.startDate, vars.length);
-         List<CashFlow> floatLeg = vars.makeFloatingLeg(vars.startDate, vars.length);
-         List<CashFlow> collaredLeg = vars.makeCapFlooredLeg(vars.startDate, vars.length, caps, floors, vars.volatility);
+         Leg fixedLeg = vars.makeFixedLeg(vars.startDate, vars.length);
+         Leg floatLeg = vars.makeFloatingLeg(vars.startDate, vars.length);
+         Leg collaredLeg = vars.makeCapFlooredLeg(vars.startDate, vars.length, caps, floors, vars.volatility);
 
          IPricingEngine engine = new DiscountingSwapEngine(vars.termStructure);
          Swap vanillaLeg = new Swap(fixedLeg, floatLeg);
@@ -227,13 +227,13 @@ namespace TestSuite
          double gearing_n = -1.5;
          double spread_n = 0.12;
          // fixed leg with zero rate
-         List<CashFlow> fixedLeg  = vars.makeFixedLeg(vars.startDate, vars.length);
+         Leg fixedLeg  = vars.makeFixedLeg(vars.startDate, vars.length);
          // floating leg with gearing=1 and spread=0
-         List<CashFlow> floatLeg  = vars.makeFloatingLeg(vars.startDate, vars.length);
+         Leg floatLeg  = vars.makeFloatingLeg(vars.startDate, vars.length);
          // floating leg with positive gearing (gearing_p) and spread<>0
-         List<CashFlow> floatLeg_p = vars.makeFloatingLeg(vars.startDate, vars.length, gearing_p, spread_p);
+         Leg floatLeg_p = vars.makeFloatingLeg(vars.startDate, vars.length, gearing_p, spread_p);
          // floating leg with negative gearing (gearing_n) and spread<>0
-         List<CashFlow> floatLeg_n = vars.makeFloatingLeg(vars.startDate, vars.length, gearing_n, spread_n);
+         Leg floatLeg_n = vars.makeFloatingLeg(vars.startDate, vars.length, gearing_n, spread_n);
          // Swap with null fixed leg and floating leg with gearing=1 and spread=0
          Swap vanillaLeg = new Swap(fixedLeg, floatLeg);
          // Swap with null fixed leg and floating leg with positive gearing and spread<>0
@@ -254,7 +254,7 @@ namespace TestSuite
          */
 
          // Case gearing = 1 and spread = 0
-         List<CashFlow> cappedLeg = vars.makeCapFlooredLeg(vars.startDate, vars.length, caps, floors0, vars.volatility);
+         Leg cappedLeg = vars.makeCapFlooredLeg(vars.startDate, vars.length, caps, floors0, vars.volatility);
          Swap capLeg = new Swap(fixedLeg, cappedLeg);
          capLeg.setPricingEngine(engine);
          Cap cap = new Cap(floatLeg, new InitializedList<double>(1, capstrike));
@@ -280,7 +280,7 @@ namespace TestSuite
                   = VanillaFloatingLeg + Put
          */
 
-         List<CashFlow> flooredLeg = vars.makeCapFlooredLeg(vars.startDate, vars.length, caps0, floors, vars.volatility);
+         Leg flooredLeg = vars.makeCapFlooredLeg(vars.startDate, vars.length, caps0, floors, vars.volatility);
          Swap floorLeg = new Swap(fixedLeg, flooredLeg);
          floorLeg.setPricingEngine(engine);
          Floor floor = new Floor(floatLeg, new InitializedList<double>(1, floorstrike));
@@ -303,7 +303,7 @@ namespace TestSuite
                   = VanillaFloatingLeg - Collar
          */
 
-         List<CashFlow> collaredLeg = vars.makeCapFlooredLeg(vars.startDate, vars.length, caps, floors, vars.volatility);
+         Leg collaredLeg = vars.makeCapFlooredLeg(vars.startDate, vars.length, caps, floors, vars.volatility);
          Swap collarLeg = new Swap(fixedLeg, collaredLeg);
          collarLeg.setPricingEngine(engine);
          Collar collar = new Collar(floatLeg, new InitializedList<double>(1, capstrike),
@@ -335,7 +335,7 @@ namespace TestSuite
          */
 
          // Positive gearing
-         List<CashFlow> cappedLeg_p = vars.makeCapFlooredLeg(vars.startDate, vars.length, caps, floors0,
+         Leg cappedLeg_p = vars.makeCapFlooredLeg(vars.startDate, vars.length, caps, floors0,
                                                              vars.volatility, gearing_p, spread_p);
          Swap capLeg_p = new Swap(fixedLeg, cappedLeg_p);
          capLeg_p.setPricingEngine(engine);
@@ -360,7 +360,7 @@ namespace TestSuite
          }
 
          // Negative gearing
-         List<CashFlow> cappedLeg_n = vars.makeCapFlooredLeg(vars.startDate, vars.length, caps, floors0,
+         Leg cappedLeg_n = vars.makeCapFlooredLeg(vars.startDate, vars.length, caps, floors0,
                                                              vars.volatility, gearing_n, spread_n);
          Swap capLeg_n = new Swap(fixedLeg, cappedLeg_n);
          capLeg_n.setPricingEngine(engine);
@@ -398,7 +398,7 @@ namespace TestSuite
          */
 
          // Positive gearing
-         List<CashFlow> flooredLeg_p1 = vars.makeCapFlooredLeg(vars.startDate, vars.length, caps0, floors,
+         Leg flooredLeg_p1 = vars.makeCapFlooredLeg(vars.startDate, vars.length, caps0, floors,
                                                                vars.volatility, gearing_p, spread_p);
          Swap floorLeg_p1 = new Swap(fixedLeg, flooredLeg_p1);
          floorLeg_p1.setPricingEngine(engine);
@@ -421,7 +421,7 @@ namespace TestSuite
                          "  Diff: " + error);
          }
          // Negative gearing
-         List<CashFlow> flooredLeg_n = vars.makeCapFlooredLeg(vars.startDate, vars.length, caps0, floors,
+         Leg flooredLeg_n = vars.makeCapFlooredLeg(vars.startDate, vars.length, caps0, floors,
                                                               vars.volatility, gearing_n, spread_n);
          Swap floorLeg_n = new Swap(fixedLeg, flooredLeg_n);
          floorLeg_n.setPricingEngine(engine);
@@ -451,7 +451,7 @@ namespace TestSuite
                Payoff = VanillaFloatingLeg + Collar(|a|*rate+b, caprate, floorrate)
          */
          // Positive gearing
-         List<CashFlow> collaredLeg_p = vars.makeCapFlooredLeg(vars.startDate, vars.length, caps, floors,
+         Leg collaredLeg_p = vars.makeCapFlooredLeg(vars.startDate, vars.length, caps, floors,
                                                                vars.volatility, gearing_p, spread_p);
          Swap collarLeg_p1 = new Swap(fixedLeg, collaredLeg_p);
          collarLeg_p1.setPricingEngine(engine);
@@ -478,7 +478,7 @@ namespace TestSuite
                          "  Diff: " + error);
          }
          // Negative gearing
-         List<CashFlow> collaredLeg_n = vars.makeCapFlooredLeg(vars.startDate, vars.length, caps, floors,
+         Leg collaredLeg_n = vars.makeCapFlooredLeg(vars.startDate, vars.length, caps, floors,
                                                                vars.volatility, gearing_n, spread_n);
          Swap collarLeg_n1 = new Swap(fixedLeg, collaredLeg_n);
          collarLeg_n1.setPricingEngine(engine);

@@ -104,7 +104,7 @@ namespace QLNet
          foreach (CashFlow c in legs_[1])
             c.registerWith(update);
 
-         List<CashFlow> bondLeg = bond_.cashflows();
+         Leg bondLeg = bond_.cashflows();
          foreach (CashFlow c in bondLeg)
          {
             // whatever might be the choice for the discounting engine
@@ -229,7 +229,7 @@ namespace QLNet
             c.registerWith(update);
 
 
-         List<CashFlow> bondLeg = bond_.cashflows();
+         Leg bondLeg = bond_.cashflows();
          // skip bond redemption
          int i;
          for (i = 0; i < bondLeg.Count && bondLeg[i].date() <= dealMaturity; ++i)
@@ -268,13 +268,13 @@ namespace QLNet
             // (accounts for non-par redemption, if any)
             double backPayment = notional;
             CashFlow backPaymentCashFlow = new SimpleCashFlow(backPayment, finalDate);
-            legs_[1].Add(backPaymentCashFlow);
+            legs_[1].Append(backPaymentCashFlow);
          }
          else
          {
             // final notional exchange
             CashFlow finalCashFlow = new SimpleCashFlow(notional, finalDate);
-            legs_[1].Add(finalCashFlow);
+            legs_[1].Append(finalCashFlow);
          }
 
          Utils.QL_REQUIRE(!legs_[0].empty(), () => "empty bond leg");
@@ -381,8 +381,8 @@ namespace QLNet
       public double nonParRepayment() { return nonParRepayment_; }
       public Bond bond() { return bond_; }
       public bool payBondCoupon() { return payer_[0].IsEqual(-1.0); }
-      public List<CashFlow> bondLeg() { return legs_[0]; }
-      public List<CashFlow> floatingLeg() { return legs_[1]; }
+      public Leg bondLeg() { return legs_[0]; }
+      public Leg floatingLeg() { return legs_[1]; }
       // other
       public override void setupArguments(IPricingEngineArguments args)
       {
@@ -393,7 +393,7 @@ namespace QLNet
          if (arguments == null)  // it's a swap engine...
             return;
 
-         List<CashFlow> fixedCoupons = bondLeg();
+         Leg fixedCoupons = bondLeg();
 
          arguments.fixedResetDates = arguments.fixedPayDates = new List<Date>(fixedCoupons.Count);
          arguments.fixedCoupons = new List<double>(fixedCoupons.Count);
@@ -407,7 +407,7 @@ namespace QLNet
             arguments.fixedCoupons[i] = coupon.amount();
          }
 
-         List<CashFlow> floatingCoupons = floatingLeg();
+         Leg floatingCoupons = floatingLeg();
 
          arguments.floatingResetDates = arguments.floatingPayDates =
                                            arguments.floatingFixingDates = new List<Date>(floatingCoupons.Count);

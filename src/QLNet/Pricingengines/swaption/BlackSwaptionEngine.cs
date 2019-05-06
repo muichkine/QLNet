@@ -102,7 +102,7 @@ namespace QLNet
          VanillaSwap swap = arguments_.swap;
 
          double strike = swap.fixedRate;
-         List<CashFlow> fixedLeg = swap.fixedLeg();
+         Leg fixedLeg = swap.fixedLeg();
          FixedRateCoupon firstCoupon = fixedLeg[0] as FixedRateCoupon;
 
          Utils.QL_REQUIRE(firstCoupon != null, () => "wrong coupon type");

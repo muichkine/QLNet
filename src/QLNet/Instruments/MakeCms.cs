@@ -143,7 +143,7 @@ namespace QLNet
                                                floatRule_, floatEndOfMonth_,
                                                floatFirstDate_, floatNextToLastDate_);
 
-         List<CashFlow> cmsLeg = new CmsLeg(cmsSchedule, swapIndex_)
+         Leg cmsLeg = new CmsLeg(cmsSchedule, swapIndex_)
          .withPaymentDayCounter(cmsDayCount_)
          .withFixingDays(swapIndex_.fixingDays())
          .withGearings(cmsGearing_)
@@ -164,7 +164,7 @@ namespace QLNet
             Utils.QL_REQUIRE(!swapIndex_.forwardingTermStructure().empty(), () =>
                              "null term structure set to this instance of " + swapIndex_.name());
             Utils.QL_REQUIRE(couponPricer_ != null, () => "no CmsCouponPricer set (yet)");
-            List<CashFlow> fLeg = new IborLeg(floatSchedule, iborIndex_)
+            Leg fLeg = new IborLeg(floatSchedule, iborIndex_)
             .withPaymentDayCounter(floatDayCount_)
             .withFixingDays(iborIndex_.fixingDays())
             .withCaps(iborCap_)
@@ -187,7 +187,7 @@ namespace QLNet
             Utils.QL_REQUIRE(usedSpread.HasValue, () => "null spread set");
          }
 
-         List<CashFlow> floatLeg = new IborLeg(floatSchedule, iborIndex_)
+         Leg floatLeg = new IborLeg(floatSchedule, iborIndex_)
          .withSpreads(usedSpread.Value)
          .withPaymentDayCounter(floatDayCount_)
          .withFixingDays(iborIndex_.fixingDays())

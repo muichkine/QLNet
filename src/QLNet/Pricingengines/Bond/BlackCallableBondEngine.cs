@@ -65,7 +65,7 @@ namespace QLNet
          Date exerciseDate = arguments_.callabilityDates[0];
          Utils.QL_REQUIRE(exerciseDate >= settle, () => "must have exercise Date >= settlement Date");
 
-         List<CashFlow> fixedLeg = arguments_.cashflows;
+         Leg fixedLeg = arguments_.cashflows;
 
          double value = CashFlows.npv(fixedLeg, discountCurve_, false, settle);
 
@@ -108,7 +108,7 @@ namespace QLNet
       {
          //! settle date of embedded option assumed same as that of bond
          Date settlement = arguments_.settlementDate;
-         List<CashFlow> cf = arguments_.cashflows;
+         Leg cf = arguments_.cashflows;
          Date optionMaturity = arguments_.putCallSchedule[0].date();
 
          /* the following assumes
@@ -139,7 +139,7 @@ namespace QLNet
       {
          Date bondMaturity = arguments_.redemptionDate;
          Date exerciseDate = arguments_.callabilityDates[0];
-         List<CashFlow> fixedLeg = arguments_.cashflows;
+         Leg fixedLeg = arguments_.cashflows;
 
          // value of bond cash flows at option maturity
          double fwdNpv = CashFlows.npv(fixedLeg, discountCurve_, false, exerciseDate);

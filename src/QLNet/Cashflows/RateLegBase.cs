@@ -29,12 +29,12 @@ namespace QLNet
       protected DayCounter paymentDayCounter_;
       protected BusinessDayConvention paymentAdjustment_;
 
-      public static implicit operator List<CashFlow>(RateLegBase o)
+      public static implicit operator Leg(RateLegBase o)
       {
          return o.value();
       }
 
-      public abstract List<CashFlow> value();
+      public abstract Leg value();
 
       // initializers
       public RateLegBase withNotionals(double notional)

@@ -201,7 +201,7 @@ namespace QLNet
          replication_ = replication;
          return this;
       }
-      public List<CashFlow> value()
+      public Leg value()
       {
          return CashFlowVectors.FloatingDigitalLeg<SwapIndex, CmsCoupon, DigitalCmsCoupon>(notionals_, schedule_, index_, paymentDayCounter_, paymentAdjustment_, fixingDays_, gearings_, spreads_, inArrears_, callStrikes_, longCallOption_, callATM_, callPayoffs_, putStrikes_, longPutOption_, putATM_, putPayoffs_, replication_);
       }

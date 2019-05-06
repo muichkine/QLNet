@@ -129,7 +129,7 @@ namespace QLNet
          arguments.type = type_;
          arguments.nominal = nominal_;
 
-         List<CashFlow> fixedCoupons = fixedLeg();
+         Leg fixedCoupons = fixedLeg();
 
          arguments.fixedResetDates = new InitializedList<Date>(fixedCoupons.Count);
          arguments.fixedPayDates = new InitializedList<Date>(fixedCoupons.Count);
@@ -144,7 +144,7 @@ namespace QLNet
             arguments.fixedCoupons[i] = coupon.amount();
          }
 
-         List<CashFlow> floatingCoupons = floatingLeg();
+         Leg floatingCoupons = floatingLeg();
 
          arguments.floatingResetDates = new InitializedList<Date>(floatingCoupons.Count);
          arguments.floatingPayDates = new InitializedList<Date>(floatingCoupons.Count);
@@ -231,8 +231,8 @@ namespace QLNet
       public double spread { get { return spread_; } }
       public double nominal { get { return nominal_; } }
       public Type swapType { get { return type_; } }
-      public List<CashFlow> fixedLeg() { return legs_[0]; }
-      public List<CashFlow> floatingLeg() { return legs_[1]; }
+      public Leg fixedLeg() { return legs_[0]; }
+      public Leg floatingLeg() { return legs_[1]; }
 
 
       protected override void setupExpired()

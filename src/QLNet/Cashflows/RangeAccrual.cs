@@ -571,7 +571,7 @@ namespace QLNet
          observationConvention_ = convention;
          return this;
       }
-      public List<CashFlow> Leg()
+      public Leg Leg()
       {
          Utils.QL_REQUIRE(!notionals_.empty(), () => "no notional given");
 
@@ -589,7 +589,7 @@ namespace QLNet
          Utils.QL_REQUIRE(upperTriggers_.Count <= n, () =>
                           "too many upperTriggers (" + upperTriggers_.Count + "), only " + n + " required");
 
-         List<CashFlow> leg = new List<CashFlow>();
+         Leg leg = new Leg();
 
 
          // the following is not always correct

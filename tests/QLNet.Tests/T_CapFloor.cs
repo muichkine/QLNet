@@ -90,7 +90,7 @@ namespace TestSuite
          }
 
          // utilities
-         public List<CashFlow> makeLeg(Date startDate, int length)
+         public Leg makeLeg(Date startDate, int length)
          {
             Date endDate = calendar.advance(startDate, new Period(length, TimeUnit.Years), convention);
             Schedule schedule = new Schedule(startDate, endDate, new Period(frequency), calendar,
@@ -112,7 +112,7 @@ namespace TestSuite
          }
 
          public CapFloor makeCapFloor(CapFloorType type,
-                                      List<CashFlow> leg,
+                                      Leg leg,
                                       double strike,
                                       double volatility)
          {
@@ -181,7 +181,7 @@ namespace TestSuite
                {
                   for (int h = 0; h < types.Length; h++)
                   {
-                     List<CashFlow> leg = vars.makeLeg(startDate, lengths[i]);
+                     Leg leg = vars.makeLeg(startDate, lengths[i]);
                      CapFloor capFloor = vars.makeCapFloor(types[h], leg, strikes[k], vols[j]);
                      CapFloor shiftedCapFloor2 = vars.makeCapFloor(types[h], leg, strikes[k], vols[j] + shift);
                      CapFloor shiftedCapFloor1 = vars.makeCapFloor(types[h], leg, strikes[k], vols[j] - shift);
@@ -240,7 +240,7 @@ namespace TestSuite
 
                for (int k = 0; k < strikes.Length; k++)
                {
-                  List<CashFlow> leg = vars.makeLeg(startDate, lengths[i]);
+                  Leg leg = vars.makeLeg(startDate, lengths[i]);
                   Instrument cap = vars.makeCapFloor(CapFloorType.Cap, leg,
                                                      strikes[k], vols[j]);
                   cap_values.Add(cap.NPV());
@@ -304,7 +304,7 @@ namespace TestSuite
                   for (int l = 0; l < vols.Length; l++)
                   {
 
-                     List<CashFlow> leg = vars.makeLeg(startDate, lengths[i]);
+                     Leg leg = vars.makeLeg(startDate, lengths[i]);
                      Instrument cap = vars.makeCapFloor(CapFloorType.Cap, leg,
                                                         cap_rates[j], vols[l]);
                      Instrument floor = vars.makeCapFloor(CapFloorType.Floor, leg,
@@ -353,7 +353,7 @@ namespace TestSuite
                for (int k = 0; k < vols.Length; k++)
                {
 
-                  List<CashFlow> leg = vars.makeLeg(startDate, lengths[i]);
+                  Leg leg = vars.makeLeg(startDate, lengths[i]);
                   Instrument cap = vars.makeCapFloor(CapFloorType.Cap, leg, strikes[j], vols[k]);
                   Instrument floor = vars.makeCapFloor(CapFloorType.Floor, leg, strikes[j], vols[k]);
                   Date maturity = vars.calendar.advance(startDate, lengths[i], TimeUnit.Years, vars.convention);
@@ -400,7 +400,7 @@ namespace TestSuite
 
          for (int i = 0; i < lengths.Length; i++)
          {
-            List<CashFlow> leg = vars.makeLeg(startDate, lengths[i]);
+            Leg leg = vars.makeLeg(startDate, lengths[i]);
             Date maturity = vars.calendar.advance(startDate, lengths[i], TimeUnit.Years, vars.convention);
             Schedule schedule = new Schedule(startDate, maturity,
                                              new Period(vars.frequency), vars.calendar,
@@ -471,7 +471,7 @@ namespace TestSuite
 
          for (int k = 0; k < lengths.Length; k++)
          {
-            List<CashFlow> leg = vars.makeLeg(vars.settlement, lengths[k]);
+            Leg leg = vars.makeLeg(vars.settlement, lengths[k]);
 
             for (int i = 0; i < types.Length; i++)
             {
@@ -562,7 +562,7 @@ namespace TestSuite
          Settings.setEvaluationDate(cachedToday);
          vars.termStructure.linkTo(Utilities.flatRate(cachedSettlement, 0.05, new Actual360()));
          Date startDate = vars.termStructure.link.referenceDate();
-         List<CashFlow> leg = vars.makeLeg(startDate, 20);
+         Leg leg = vars.makeLeg(startDate, 20);
          Instrument cap = vars.makeCapFloor(CapFloorType.Cap, leg, 0.07, 0.20);
          Instrument floor = vars.makeCapFloor(CapFloorType.Floor, leg, 0.03, 0.20);
 

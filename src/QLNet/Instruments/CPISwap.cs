@@ -124,7 +124,7 @@ namespace QLNet
 
          inflationNominal_ = inflationNominal ?? nominal_;
 
-         List<CashFlow> floatingLeg;
+         Leg floatingLeg;
          if (floatSchedule_.Count > 1)
          {
             floatingLeg = new IborLeg(floatSchedule_, floatIndex_)
@@ -135,7 +135,7 @@ namespace QLNet
             .withPaymentAdjustment(floatPaymentRoll_);
          }
          else
-            floatingLeg = new List<CashFlow>();
+            floatingLeg = new Leg();
 
          if (floatSchedule_.Count == 1 ||
              !subtractInflationNominal_ ||
@@ -161,7 +161,7 @@ namespace QLNet
          }
 
          // a CPIleg know about zero legs and inclusion of base inflation notional
-         List<CashFlow> cpiLeg = new CPILeg(fixedSchedule_, fixedIndex_, baseCPI_, observationLag_)
+         Leg cpiLeg = new CPILeg(fixedSchedule_, fixedIndex_, baseCPI_, observationLag_)
          .withFixedRates(fixedRate_)
          .withPaymentDayCounter(fixedDayCount_)
          .withObservationInterpolation(observationInterpolation_)
@@ -253,8 +253,8 @@ namespace QLNet
       public virtual double inflationNominal() {return inflationNominal_;}
 
       // legs
-      public virtual List<CashFlow>  cpiLeg() {return legs_[0];}
-      public virtual List<CashFlow> floatLeg() {return legs_[1];}
+      public virtual Leg  cpiLeg() {return legs_[0];}
+      public virtual Leg floatLeg() {return legs_[1];}
 
       // other
       public override void fetchResults(IPricingEngineResults r)

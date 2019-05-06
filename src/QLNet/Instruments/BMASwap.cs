@@ -89,8 +89,8 @@ namespace QLNet
       }
 
 
-      public List<CashFlow> liborLeg() { return legs_[0]; }
-      public List<CashFlow> bmaLeg() { return legs_[1]; }
+      public Leg liborLeg() { return legs_[0]; }
+      public Leg bmaLeg() { return legs_[1]; }
 
       public double liborLegBPS()
       {

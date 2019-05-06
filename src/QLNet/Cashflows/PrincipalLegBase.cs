@@ -27,8 +27,8 @@ namespace QLNet
       protected BusinessDayConvention paymentAdjustment_;
       protected DayCounter dayCounter_;
       protected int sign_;
-      public static implicit operator List<CashFlow>(PrincipalLegBase o) { return o.value(); }
-      public abstract List<CashFlow> value();
+      public static implicit operator Leg(PrincipalLegBase o) { return o.value(); }
+      public abstract Leg value();
 
 
       // initializers
@@ -73,9 +73,9 @@ namespace QLNet
       }
 
       // creator
-      public override List<CashFlow> value()
+      public override Leg value()
       {
-         List<CashFlow> leg = new List<CashFlow>();
+         Leg leg = new Leg();
 
          // the following is not always correct
          Calendar calendar = schedule_.calendar();
@@ -122,9 +122,9 @@ namespace QLNet
       }
 
       // creator
-      public override List<CashFlow> value()
+      public override Leg value()
       {
-         List<CashFlow> leg = new List<CashFlow>();
+         Leg leg = new Leg();
 
          // the following is not always correct
          Calendar calendar = schedule_.calendar();

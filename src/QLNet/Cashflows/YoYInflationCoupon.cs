@@ -79,7 +79,7 @@ namespace QLNet
       }
 
 
-      public override List<CashFlow> value()
+      public override Leg value()
       {
          return CashFlowVectors.yoyInflationLeg(notionals_,
                                                 schedule_,

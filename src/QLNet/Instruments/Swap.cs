@@ -29,7 +29,7 @@ namespace QLNet
    {
       #region Data members
 
-      protected List<List<CashFlow>> legs_;
+      protected List<Leg> legs_;
       protected List<double> payer_;
       protected List < double? > legNPV_;
       protected List < double? > legBPS_;
@@ -47,9 +47,9 @@ namespace QLNet
 
       // The cash flows belonging to the first leg are paid
       // the ones belonging to the second leg are received.
-      public Swap(List<CashFlow> firstLeg, List<CashFlow> secondLeg)
+      public Swap(Leg firstLeg, Leg secondLeg)
       {
-         legs_ = new InitializedList<List<CashFlow>>(2);
+         legs_ = new InitializedList<Leg>(2);
          legs_[0] = firstLeg;
          legs_[1] = secondLeg;
          payer_ = new InitializedList<double>(2);
@@ -68,9 +68,9 @@ namespace QLNet
       }
 
       // Multi leg constructor.
-      public Swap(List<List<CashFlow>> legs, List<bool> payer)
+      public Swap(List<Leg> legs, List<bool> payer)
       {
-         legs_ = (InitializedList<List<CashFlow>>)legs;
+         legs_ = (InitializedList<Leg>)legs;
          payer_ = new InitializedList<double>(legs.Count, 1.0);
          legNPV_ = new InitializedList < double? >(legs.Count, 0.0);
          legBPS_ = new InitializedList < double? >(legs.Count, 0.0);
@@ -94,7 +94,7 @@ namespace QLNet
       */
       protected Swap(int legs)
       {
-         legs_ = new InitializedList<List<CashFlow>>(legs);
+         legs_ = new InitializedList<Leg>(legs);
          payer_ = new InitializedList<double>(legs);
          legNPV_ = new InitializedList < double? >(legs, 0.0);
          legBPS_ = new InitializedList < double? >(legs, 0.0);
@@ -109,7 +109,7 @@ namespace QLNet
       public override bool isExpired()
       {
          Date today = Settings.evaluationDate();
-         return !legs_.Any<List<CashFlow>>(leg => leg.Any<CashFlow>(cf => !cf.hasOccurred(today)));
+         return !legs_.Any<Leg>(leg => leg.Any<CashFlow>(cf => !cf.hasOccurred(today)));
       }
 
       protected override void setupExpired()
@@ -238,7 +238,7 @@ namespace QLNet
          return npvDateDiscount_;
       }
 
-      public List<CashFlow> leg(int j)
+      public Leg leg(int j)
       {
          Utils.QL_REQUIRE(j < legs_.Count, () => "leg #" + j + " doesn't exist!");
          return legs_[j];
@@ -256,7 +256,7 @@ namespace QLNet
       // arguments, results, pricing engine
       public class Arguments : IPricingEngineArguments
       {
-         public List<List<CashFlow >> legs { get; set; }
+         public List<Leg> legs { get; set; }
          public List<double> payer { get; set; }
          public virtual void validate()
          {

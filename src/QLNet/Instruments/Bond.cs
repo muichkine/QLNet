@@ -39,12 +39,12 @@ namespace QLNet
           data, if available.  Therefore, redemptions must not be
           included in the passed cash flows.
       */
-      public Bond(int settlementDays, Calendar calendar, Date issueDate = null, List<CashFlow> coupons = null)
+      public Bond(int settlementDays, Calendar calendar, Date issueDate = null, Leg coupons = null)
       {
          settlementDays_ = settlementDays;
          calendar_ = calendar;
          if (coupons == null)
-            cashflows_ = new List<CashFlow>();
+            cashflows_ = new Leg();
          else
             cashflows_ = coupons;
          issueDate_ = issueDate;
@@ -72,12 +72,12 @@ namespace QLNet
                    later than the redemption date.
       */
       public Bond(int settlementDays, Calendar calendar, double faceAmount, Date maturityDate, Date issueDate = null,
-                  List<CashFlow> cashflows = null)
+                  Leg cashflows = null)
       {
          settlementDays_ = settlementDays;
          calendar_ = calendar;
          if (cashflows == null)
-            cashflows_ = new List<CashFlow>();
+            cashflows_ = new Leg();
          else
             cashflows_ = cashflows;
          maturityDate_ = maturityDate;
@@ -160,9 +160,9 @@ namespace QLNet
          }
       }
       // \note returns all the cashflows, including the redemptions.
-      public List<CashFlow> cashflows() { return cashflows_; }
+      public Leg cashflows() { return cashflows_; }
       //! returns just the redemption flows (not interest payments)
-      public List<CashFlow> redemptions() { return redemptions_; }
+      public Leg redemptions() { return redemptions_; }
       // returns the redemption, if only one is defined
       public CashFlow redemption()
       {
@@ -387,7 +387,7 @@ namespace QLNet
          }
          // stable_sort now moves the AmortizingPayment and Redemptions to the right places
          // while ensuring that they follow coupons with the same date.
-         cashflows_ = cashflows_.OrderBy(x => x.date()).ToList();
+         cashflows_ = new Leg(cashflows_.OrderBy(x => x.date()));
       }
 
       /*! This method can be called by derived classes in order to
@@ -474,8 +474,8 @@ namespace QLNet
       protected Calendar calendar_;
       protected List<Date> notionalSchedule_ = new List<Date>();
       protected List<double> notionals_ = new List<double>();
-      protected List<CashFlow> cashflows_; // all cashflows
-      protected List<CashFlow> redemptions_ = new List<CashFlow>(); // the redemptions
+      protected Leg cashflows_; // all cashflows
+      protected Leg redemptions_ = new Leg(); // the redemptions
       protected Date maturityDate_, issueDate_;
       protected double? settlementValue_;
 
@@ -496,7 +496,7 @@ namespace QLNet
       public class Arguments : IPricingEngineArguments
       {
          public Date settlementDate { get; set; }
-         public List<CashFlow> cashflows { get; set; }
+         public Leg cashflows { get; set; }
          public Calendar calendar { get; set; }
 
          public virtual void validate()

@@ -254,7 +254,7 @@ namespace QLNet
       public double? upfront() { return upfront_; }
       public bool settlesAccrual() { return settlesAccrual_; }
       public bool paysAtDefaultTime() { return paysAtDefaultTime_; }
-      public List<CashFlow> coupons() { return leg_; }
+      public Leg coupons() { return leg_; }
       /// <summary>
       /// The first date for which defaults will trigger the contract
       /// </summary>
@@ -489,7 +489,7 @@ namespace QLNet
       protected double runningSpread_;
       protected bool settlesAccrual_, paysAtDefaultTime_;
       protected Claim claim_;
-      protected List<CashFlow> leg_;
+      protected Leg leg_;
       protected CashFlow upfrontPayment_;
       protected CashFlow accrualRebate_;
       protected Date protectionStart_;
@@ -540,7 +540,7 @@ namespace QLNet
          public double? notional { get; set; }
          public double? upfront { get; set; }
          public double? spread { get; set; }
-         public List<CashFlow> leg { get; set; }
+         public Leg leg { get; set; }
          public CashFlow upfrontPayment { get; set; }
          public CashFlow accrualRebate { get; set; }
          public bool settlesAccrual { get; set; }

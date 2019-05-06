@@ -69,12 +69,12 @@ namespace QLNet
          paymentConvention_ = paymentConvention;
 
          // N.B. fixed leg gets its calendar from the schedule!
-         List<CashFlow> fixedLeg = new FixedRateLeg(fixedSchedule_)
+         Leg fixedLeg = new FixedRateLeg(fixedSchedule_)
          .withCouponRates(fixedRate_, fixedDayCount_)   // Simple compounding by default
          .withNotionals(nominal_)
          .withPaymentAdjustment(paymentConvention_);
 
-         List<CashFlow> yoyLeg = new yoyInflationLeg(yoySchedule_, paymentCalendar_, yoyIndex_, observationLag_)
+         Leg yoyLeg = new yoyInflationLeg(yoySchedule_, paymentCalendar_, yoyIndex_, observationLag_)
          .withSpreads(spread_)
          .withPaymentDayCounter(yoyDayCount_)
          .withNotionals(nominal_)
@@ -140,8 +140,8 @@ namespace QLNet
       public virtual Calendar paymentCalendar() { return paymentCalendar_; }
       public virtual BusinessDayConvention paymentConvention() { return paymentConvention_; }
 
-      public virtual List<CashFlow> fixedLeg() { return legs_[0]; }
-      public virtual List<CashFlow> yoyLeg() { return legs_[1]; }
+      public virtual Leg fixedLeg() { return legs_[0]; }
+      public virtual Leg yoyLeg() { return legs_[1]; }
 
       // other
       public override void setupArguments(IPricingEngineArguments args)
@@ -156,7 +156,7 @@ namespace QLNet
          arguments.type = type_;
          arguments.nominal = nominal_;
 
-         List<CashFlow> fixedCoupons = fixedLeg();
+         Leg fixedCoupons = fixedLeg();
 
          arguments.fixedResetDates = arguments.fixedPayDates = new List<Date>(fixedCoupons.Count);
          arguments.fixedCoupons = new List<double>(fixedCoupons.Count);
@@ -170,7 +170,7 @@ namespace QLNet
             arguments.fixedCoupons.Add(coupon.amount());
          }
 
-         List<CashFlow> yoyCoupons = yoyLeg();
+         Leg yoyCoupons = yoyLeg();
 
          arguments.yoyResetDates = arguments.yoyPayDates = arguments.yoyFixingDates = new List<Date>(yoyCoupons.Count);
          arguments.yoyAccrualTimes = new List<double>(yoyCoupons.Count);

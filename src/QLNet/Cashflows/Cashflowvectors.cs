@@ -36,7 +36,7 @@ namespace QLNet
 
    public static class CashFlowVectors
    {
-      public static List<CashFlow> FloatingLeg<InterestRateIndexType, FloatingCouponType, CappedFlooredCouponType>(
+      public static Leg FloatingLeg<InterestRateIndexType, FloatingCouponType, CappedFlooredCouponType>(
          List<double> nominals,
          Schedule schedule,
          InterestRateIndexType index,
@@ -67,7 +67,7 @@ namespace QLNet
             Utils.QL_REQUIRE(floors.Count <= n, () => "too many floors (" + floors.Count + "), only " + n + " required");
          Utils.QL_REQUIRE(!isZero || !isInArrears, () => "in-arrears and zero features are not compatible");
 
-         List<CashFlow> leg = new List<CashFlow>();
+         Leg leg = new Leg();
 
          // the following is not always correct
          Calendar calendar = schedule.calendar();
@@ -126,7 +126,7 @@ namespace QLNet
          return leg;
       }
 
-      public static List<CashFlow> FloatingDigitalLeg<InterestRateIndexType, FloatingCouponType, DigitalCouponType>(
+      public static Leg FloatingDigitalLeg<InterestRateIndexType, FloatingCouponType, DigitalCouponType>(
          List<double> nominals,
          Schedule schedule,
          InterestRateIndexType index,
@@ -161,7 +161,7 @@ namespace QLNet
          if (putStrikes != null)
             Utils.QL_REQUIRE(putStrikes.Count <= n, () => "too many nominals (" + putStrikes.Count + "), only " + n + " required");
 
-         List<CashFlow> leg = new List<CashFlow>();
+         Leg leg = new Leg();
 
          // the following is not always correct
          Calendar calendar = schedule.calendar();
@@ -223,7 +223,7 @@ namespace QLNet
          return leg;
       }
 
-      public static List<CashFlow> OvernightLeg(List<double> nominals,
+      public static Leg OvernightLeg(List<double> nominals,
                                                 Schedule schedule,
                                                 BusinessDayConvention paymentAdjustment,
                                                 OvernightIndex overnightIndex,
@@ -233,7 +233,7 @@ namespace QLNet
       {
          Utils.QL_REQUIRE(!nominals.empty(), () => "no nominal given");
 
-         List<CashFlow> leg = new List<CashFlow>();
+         Leg leg = new Leg();
 
          // the following is not always correct
          Calendar calendar = schedule.calendar();
@@ -264,7 +264,7 @@ namespace QLNet
          return leg;
       }
 
-      public static List<CashFlow> yoyInflationLeg(List<double> notionals_,
+      public static Leg yoyInflationLeg(List<double> notionals_,
                                                    Schedule schedule_,
                                                    BusinessDayConvention paymentAdjustment_,
                                                    YoYInflationIndex index_,
@@ -291,7 +291,7 @@ namespace QLNet
             Utils.QL_REQUIRE(floors_.Count <= n, () => "too many floors (" + floors_.Count + "), only " + n + " required");
 
 
-         List<CashFlow> leg = new List<CashFlow>(n);
+         Leg leg = new Leg(n);
 
          Calendar calendar = paymentCalendar_;
 

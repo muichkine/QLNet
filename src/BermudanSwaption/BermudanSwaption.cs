@@ -222,7 +222,7 @@ namespace BermudanSwaption
                            fixedAtmRate);
 
          List<Date> bermudanDates = new List<Date>();
-         List<CashFlow> leg = swap.fixedLeg();
+         Leg leg = swap.fixedLeg();
          for (int i = 0; i < leg.Count; i++)
          {
             Coupon coupon = (Coupon)leg[i];

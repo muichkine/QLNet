@@ -177,7 +177,7 @@ namespace QLNet
 
             delta_ = (paymentTime - swapStartTime) / (swapFirstPaymentTime - swapStartTime);
 
-            List<CashFlow> fixedLeg = new List<CashFlow>(swap.fixedLeg());
+            Leg fixedLeg = new Leg(swap.fixedLeg());
             int n = fixedLeg.Count;
             accruals_ = new List<double>();
             for (int i = 0; i < n; ++i)
@@ -473,7 +473,7 @@ namespace QLNet
 
             shapedPaymentTime_ = shapeOfShift(paymentTime);
 
-            List<CashFlow> fixedLeg = new List<CashFlow>(swap.fixedLeg());
+            Leg fixedLeg = new Leg(swap.fixedLeg());
             int n = fixedLeg.Count;
 
             shapedSwapPaymentTimes_ = new List<double>();

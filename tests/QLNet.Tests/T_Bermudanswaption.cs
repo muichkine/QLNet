@@ -157,7 +157,7 @@ namespace TestSuite
          double a = 0.048696, sigma = 0.0058904;
          ShortRateModel model = new HullWhite(vars.termStructure, a, sigma);
          List<Date> exerciseDates = new List<Date>();
-         List<CashFlow> leg = atmSwap.fixedLeg();
+         Leg leg = atmSwap.fixedLeg();
 
          for (int i = 0; i < leg.Count; i++)
          {

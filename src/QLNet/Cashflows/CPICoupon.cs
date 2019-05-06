@@ -258,12 +258,12 @@ namespace QLNet
          spreads_ = new List<double>() { 0 };
       }
 
-      public override List<CashFlow> value()
+      public override Leg value()
       {
          Utils.QL_REQUIRE(!notionals_.empty(), () => "no notional given");
 
          int n = schedule_.Count - 1;
-         List<CashFlow> leg = new List<CashFlow>(n + 1);
+         Leg leg = new Leg(n + 1);
 
          if (n > 0)
          {

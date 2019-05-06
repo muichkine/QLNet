@@ -234,7 +234,7 @@ namespace QLNet
          return this;
       }
 
-      public override List<CashFlow> value()
+      public override Leg value()
       {
          return CashFlowVectors.OvernightLeg(notionals_, schedule_, paymentAdjustment_, overnightIndex_, gearings_, spreads_, paymentDayCounter_);
       }

@@ -104,7 +104,7 @@ namespace QLNet
                        DividendSchedule dividends,
                        CallabilitySchedule callability,
                        Handle<Quote> creditSpread,
-                       List<CashFlow> cashflows,
+                       Leg cashflows,
                        DayCounter dayCounter,
                        Schedule schedule,
                        Date issueDate,
@@ -179,7 +179,7 @@ namespace QLNet
                }
             }
 
-            List<CashFlow> cashflows = bond_.cashflows();
+            Leg cashflows = bond_.cashflows();
 
             if (moreArgs.couponDates == null)
                moreArgs.couponDates = new List<Date>();
@@ -231,7 +231,7 @@ namespace QLNet
          private CallabilitySchedule callability_;
          private DividendSchedule dividends_;
          private Handle<Quote> creditSpread_;
-         private List<CashFlow> cashflows_;
+         private Leg cashflows_;
          private DayCounter dayCounter_;
          private Date issueDate_;
          private Schedule schedule_;
@@ -326,7 +326,7 @@ namespace QLNet
               exercise, conversionRatio, dividends, callability, creditSpread, issueDate, settlementDays, schedule,
               redemption)
       {
-         cashflows_ = new List<CashFlow>();
+         cashflows_ = new Leg();
 
          // !!! notional forcibly set to 100
          setSingleRedemption(100.0, redemption, maturityDate_);

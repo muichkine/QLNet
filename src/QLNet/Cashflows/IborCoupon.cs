@@ -142,9 +142,9 @@ namespace QLNet
          zeroPayments_ = false;
       }
 
-      public override List<CashFlow> value()
+      public override Leg value()
       {
-         List<CashFlow> cashflows = CashFlowVectors.FloatingLeg<IborIndex, IborCoupon, CappedFlooredIborCoupon>(
+         Leg cashflows = CashFlowVectors.FloatingLeg<IborIndex, IborCoupon, CappedFlooredIborCoupon>(
                                        notionals_, schedule_, index_ as IborIndex, paymentDayCounter_,
                                        paymentAdjustment_, fixingDays_, gearings_, spreads_,
                                        caps_, floors_, inArrears_, zeroPayments_);

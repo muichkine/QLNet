@@ -72,13 +72,13 @@ namespace QLNet
          else
             paymentConvention_ = floating1Schedule_.businessDayConvention();
 
-         List<CashFlow> floating1Leg = new IborLeg(float1Schedule, iborIndex1)
+         Leg floating1Leg = new IborLeg(float1Schedule, iborIndex1)
          .withPaymentDayCounter(float1DayCount)
          .withSpreads(spread1)
          .withNotionals(nominal)
          .withPaymentAdjustment(paymentConvention_);
 
-         List<CashFlow> floating2Leg = new IborLeg(float2Schedule, iborIndex2)
+         Leg floating2Leg = new IborLeg(float2Schedule, iborIndex2)
          .withPaymentDayCounter(float2DayCount)
          .withSpreads(spread2)
          .withNotionals(nominal)
@@ -125,7 +125,7 @@ namespace QLNet
          arguments.nominal = nominal_;
 
 
-         List<CashFlow> floating1Coupons = floating1Leg();
+         Leg floating1Coupons = floating1Leg();
 
          arguments.floating1ResetDates = new InitializedList<Date>(floating1Coupons.Count);
          arguments.floating1PayDates = new InitializedList<Date>(floating1Coupons.Count);
@@ -153,7 +153,7 @@ namespace QLNet
             }
          }
 
-         List<CashFlow> floating2Coupons = floating2Leg();
+         Leg floating2Coupons = floating2Leg();
 
          arguments.floating2ResetDates = new InitializedList<Date>(floating2Coupons.Count);
          arguments.floating2PayDates = new InitializedList<Date>(floating2Coupons.Count);
@@ -221,8 +221,8 @@ namespace QLNet
       public double spread2 { get { return spread2_; } }
       public double nominal { get { return nominal_; } }
       public Type swapType { get { return type_; } }
-      public List<CashFlow> floating1Leg() { return legs_[0]; }
-      public List<CashFlow> floating2Leg() { return legs_[1]; }
+      public Leg floating1Leg() { return legs_[0]; }
+      public Leg floating2Leg() { return legs_[1]; }
 
       public double fairLongSpread()
       {

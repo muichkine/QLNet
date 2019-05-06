@@ -168,7 +168,7 @@ namespace TestSuite
          }
 
          // utilities
-         public List<CashFlow> makeYoYLeg(Date startDate, int length, double gearing = 1.0, double spread = 0.0)
+         public Leg makeYoYLeg(Date startDate, int length, double gearing = 1.0, double spread = 0.0)
          {
             YoYInflationIndex ii = iir as YoYInflationIndex;
             Date endDate = calendar.advance(startDate, new Period(length, TimeUnit.Years), BusinessDayConvention.Unadjusted);
@@ -188,7 +188,7 @@ namespace TestSuite
                    .withPaymentAdjustment(convention);
          }
 
-         public List<CashFlow> makeFixedLeg(Date startDate, int length)
+         public Leg makeFixedLeg(Date startDate, int length)
          {
             Date endDate = calendar.advance(startDate, length, TimeUnit.Years, convention);
             Schedule schedule = new Schedule(startDate, endDate, new Period(frequency), calendar,
@@ -200,7 +200,7 @@ namespace TestSuite
                    .withNotionals(nominals);
          }
 
-         public List<CashFlow> makeYoYCapFlooredLeg(int which, Date startDate,
+         public Leg makeYoYCapFlooredLeg(int which, Date startDate,
                                                     int length,
                                                     List < double? > caps,
                                                     List < double? > floors,
@@ -248,7 +248,7 @@ namespace TestSuite
                                              BusinessDayConvention.Unadjusted,// ref periods & acc periods
                                              DateGeneration.Rule.Forward, false);
 
-            List<CashFlow> yoyLeg =  new yoyInflationLeg(schedule, calendar, ii, observationLag)
+            Leg yoyLeg =  new yoyInflationLeg(schedule, calendar, ii, observationLag)
             .withPaymentDayCounter(dc)
             .withGearings(gearingVector)
             .withSpreads(spreadVector)
@@ -305,7 +305,7 @@ namespace TestSuite
          }
 
          public YoYInflationCapFloor makeYoYCapFloor(CapFloorType type,
-                                                     List<CashFlow> leg,
+                                                     Leg leg,
                                                      double strike,
                                                      double volatility,
                                                      int which)
@@ -375,13 +375,13 @@ namespace TestSuite
          double gearing_n = -1.5;
          double spread_n = 0.12;
          // fixed leg with zero rate
-         List<CashFlow> fixedLeg  = vars.makeFixedLeg(vars.startDate, vars.length);
+         Leg fixedLeg  = vars.makeFixedLeg(vars.startDate, vars.length);
          // floating leg with gearing=1 and spread=0
-         List<CashFlow> floatLeg  = vars.makeYoYLeg(vars.startDate, vars.length);
+         Leg floatLeg  = vars.makeYoYLeg(vars.startDate, vars.length);
          // floating leg with positive gearing (gearing_p) and spread<>0
-         List<CashFlow> floatLeg_p = vars.makeYoYLeg(vars.startDate, vars.length, gearing_p, spread_p);
+         Leg floatLeg_p = vars.makeYoYLeg(vars.startDate, vars.length, gearing_p, spread_p);
          // floating leg with negative gearing (gearing_n) and spread<>0
-         List<CashFlow> floatLeg_n = vars.makeYoYLeg(vars.startDate, vars.length, gearing_n, spread_n);
+         Leg floatLeg_n = vars.makeYoYLeg(vars.startDate, vars.length, gearing_n, spread_n);
          // Swap with null fixed leg and floating leg with gearing=1 and spread=0
          Swap vanillaLeg = new Swap(fixedLeg, floatLeg);
          // Swap with null fixed leg and floating leg with positive gearing and spread<>0
@@ -405,7 +405,7 @@ namespace TestSuite
          int whichPricer = 0;
 
          // Case gearing = 1 and spread = 0
-         List<CashFlow> cappedLeg = vars.makeYoYCapFlooredLeg(whichPricer, vars.startDate, vars.length,
+         Leg cappedLeg = vars.makeYoYCapFlooredLeg(whichPricer, vars.startDate, vars.length,
                                                               caps, floors0, vars.volatility);
          Swap capLeg = new Swap(fixedLeg, cappedLeg);
          capLeg.setPricingEngine(engine);
@@ -432,7 +432,7 @@ namespace TestSuite
          // = VanillaFloatingLeg + Put
          //
 
-         List<CashFlow> flooredLeg = vars.makeYoYCapFlooredLeg(whichPricer, vars.startDate, vars.length,
+         Leg flooredLeg = vars.makeYoYCapFlooredLeg(whichPricer, vars.startDate, vars.length,
                                                                caps0, floors, vars.volatility);
          Swap floorLeg = new Swap(fixedLeg, flooredLeg);
          floorLeg.setPricingEngine(engine);
@@ -456,7 +456,7 @@ namespace TestSuite
          // = VanillaFloatingLeg - Collar
          //
 
-         List<CashFlow> collaredLeg = vars.makeYoYCapFlooredLeg(whichPricer, vars.startDate, vars.length,
+         Leg collaredLeg = vars.makeYoYCapFlooredLeg(whichPricer, vars.startDate, vars.length,
                                                                 caps, floors, vars.volatility);
          Swap collarLeg = new Swap(fixedLeg, collaredLeg);
          collarLeg.setPricingEngine(engine);
@@ -490,7 +490,7 @@ namespace TestSuite
          //
 
          // Positive gearing
-         List<CashFlow> cappedLeg_p = vars.makeYoYCapFlooredLeg(whichPricer, vars.startDate, vars.length, caps, floors0,
+         Leg cappedLeg_p = vars.makeYoYCapFlooredLeg(whichPricer, vars.startDate, vars.length, caps, floors0,
                                                                 vars.volatility, gearing_p, spread_p);
          Swap capLeg_p = new Swap(fixedLeg, cappedLeg_p);
          capLeg_p.setPricingEngine(engine);
@@ -515,7 +515,7 @@ namespace TestSuite
          }
 
          // Negative gearing
-         List<CashFlow> cappedLeg_n = vars.makeYoYCapFlooredLeg(whichPricer, vars.startDate, vars.length, caps, floors0,
+         Leg cappedLeg_n = vars.makeYoYCapFlooredLeg(whichPricer, vars.startDate, vars.length, caps, floors0,
                                                                 vars.volatility, gearing_n, spread_n);
          Swap capLeg_n = new Swap(fixedLeg, cappedLeg_n);
          capLeg_n.setPricingEngine(engine);
@@ -553,7 +553,7 @@ namespace TestSuite
          //
 
          // Positive gearing
-         List<CashFlow> flooredLeg_p1 = vars.makeYoYCapFlooredLeg(whichPricer, vars.startDate, vars.length, caps0, floors,
+         Leg flooredLeg_p1 = vars.makeYoYCapFlooredLeg(whichPricer, vars.startDate, vars.length, caps0, floors,
                                                                   vars.volatility, gearing_p, spread_p);
          Swap floorLeg_p1 = new Swap(fixedLeg, flooredLeg_p1);
          floorLeg_p1.setPricingEngine(engine);
@@ -576,7 +576,7 @@ namespace TestSuite
                          "  Diff: " + error);
          }
          // Negative gearing
-         List<CashFlow> flooredLeg_n = vars.makeYoYCapFlooredLeg(whichPricer, vars.startDate, vars.length, caps0, floors,
+         Leg flooredLeg_n = vars.makeYoYCapFlooredLeg(whichPricer, vars.startDate, vars.length, caps0, floors,
                                                                  vars.volatility, gearing_n, spread_n);
          Swap floorLeg_n = new Swap(fixedLeg, flooredLeg_n);
          floorLeg_n.setPricingEngine(engine);
@@ -606,7 +606,7 @@ namespace TestSuite
          // Payoff = VanillaFloatingLeg + Collar(|a|*rate+b, caprate, floorrate)
          //
          // Positive gearing
-         List<CashFlow> collaredLeg_p = vars.makeYoYCapFlooredLeg(whichPricer, vars.startDate, vars.length, caps, floors,
+         Leg collaredLeg_p = vars.makeYoYCapFlooredLeg(whichPricer, vars.startDate, vars.length, caps, floors,
                                                                   vars.volatility, gearing_p, spread_p);
          Swap collarLeg_p1 = new Swap(fixedLeg, collaredLeg_p);
          collarLeg_p1.setPricingEngine(engine);
@@ -634,7 +634,7 @@ namespace TestSuite
                          "  Diff: " + error);
          }
          // Negative gearing
-         List<CashFlow> collaredLeg_n = vars.makeYoYCapFlooredLeg(whichPricer, vars.startDate, vars.length, caps, floors,
+         Leg collaredLeg_n = vars.makeYoYCapFlooredLeg(whichPricer, vars.startDate, vars.length, caps, floors,
                                                                   vars.volatility, gearing_n, spread_n);
          Swap collarLeg_n1 = new Swap(fixedLeg, collaredLeg_n);
          collarLeg_n1.setPricingEngine(engine);
@@ -695,7 +695,7 @@ namespace TestSuite
                   for (int k = 0; k < vols.Length; k++)
                   {
 
-                     List<CashFlow> leg = vars.makeYoYLeg(vars.evaluationDate, lengths[i]);
+                     Leg leg = vars.makeYoYLeg(vars.evaluationDate, lengths[i]);
 
                      Instrument cap = vars.makeYoYCapFloor(CapFloorType.Cap,
                                                            leg, strikes[j], vols[k], whichPricer);
@@ -727,7 +727,7 @@ namespace TestSuite
                      IPricingEngine sppe = new DiscountingSwapEngine(hTS);
                      swap.setPricingEngine(sppe);
 
-                     List<CashFlow> leg2 = vars.makeYoYCapFlooredLeg(whichPricer, from,
+                     Leg leg2 = vars.makeYoYCapFlooredLeg(whichPricer, from,
                                                                      lengths[i],
                                                                      new InitializedList < double? >(lengths[i], strikes[j]), //cap
                                                                      new List < double? >(), //floor
@@ -735,7 +735,7 @@ namespace TestSuite
                                                                      1.0,   // gearing
                                                                      0.0);// spread
 
-                     List<CashFlow> leg3 = vars.makeYoYCapFlooredLeg(whichPricer, from,
+                     Leg leg3 = vars.makeYoYCapFlooredLeg(whichPricer, from,
                                                                      lengths[i],
                                                                      new List < double? >(), // cap
                                                                      new InitializedList < double? >(lengths[i], strikes[j]), //floor

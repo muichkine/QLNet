@@ -50,7 +50,7 @@ namespace QLNet
          m1 = new Vector(size_);
          m2 = new Vector(size_);
          DayCounter dayCounter = index.dayCounter();
-         IList<CashFlow> flows = cashFlows(1);
+         Leg flows = cashFlows(1);
 
          Utils.QL_REQUIRE(size_ == flows.Count, () => "wrong number of cashflows");
 
@@ -179,12 +179,12 @@ namespace QLNet
          return index_;
       }
 
-      public List<CashFlow> cashFlows()
+      public Leg cashFlows()
       {
          return cashFlows(1);
       }
 
-      public List<CashFlow> cashFlows(double amount)
+      public Leg cashFlows(double amount)
       {
          Date refDate = index_.forwardingTermStructure().link.referenceDate();
 

@@ -44,7 +44,7 @@ namespace QLNet
       #region Private Attributes
 
       private CapFloorType type_;
-      private List<CashFlow> floatingLeg_;
+      private Leg floatingLeg_;
       private List<double> capRates_;
       private List<double> floorRates_;
 
@@ -52,11 +52,11 @@ namespace QLNet
 
       #region Constructors
 
-      public CapFloor(CapFloorType type, List<CashFlow> floatingLeg, List<double> capRates, List<double> floorRates)
+      public CapFloor(CapFloorType type, Leg floatingLeg, List<double> capRates, List<double> floorRates)
       {
 
          type_ = type;
-         floatingLeg_ = new List<CashFlow>(floatingLeg);
+         floatingLeg_ = new Leg(floatingLeg);
          capRates_ = new List<double>(capRates);
          floorRates_ = new List<double>(floorRates);
 
@@ -83,11 +83,11 @@ namespace QLNet
          Settings.registerWith(update);
 
       }
-      public CapFloor(CapFloorType type, List<CashFlow> floatingLeg, List<double> strikes)
+      public CapFloor(CapFloorType type, Leg floatingLeg, List<double> strikes)
       {
 
          type_ = type;
-         floatingLeg_ = new List<CashFlow>(floatingLeg);
+         floatingLeg_ = new Leg(floatingLeg);
 
          if (strikes.Count == 0)
             throw new ArgumentException("no strikes given");
@@ -205,7 +205,7 @@ namespace QLNet
       public CapFloorType getType() { return type_; }
       public List<double> capRates() { return capRates_; }
       public List<double> floorRates() { return floorRates_; }
-      public List<CashFlow> floatingLeg() { return floatingLeg_; }
+      public Leg floatingLeg() { return floatingLeg_; }
 
       public Date startDate() {return CashFlows.startDate(floatingLeg_);}
       public Date maturityDate() {return CashFlows.maturityDate(floatingLeg_);}
@@ -223,7 +223,7 @@ namespace QLNet
             throw new ArgumentException(i + " optionlet does not exist, only " +
                                         floatingLeg().Count);
 
-         List<CashFlow> cf = new List<CashFlow>();
+         Leg cf = new Leg();
          cf.Add(floatingLeg()[i]);
 
          List<double> cap = new List<double>() ;
@@ -348,7 +348,7 @@ namespace QLNet
    /// </summary>
    public class Cap : CapFloor
    {
-      public Cap(List<CashFlow> floatingLeg, List<double> exerciseRates)
+      public Cap(Leg floatingLeg, List<double> exerciseRates)
          : base(CapFloorType.Cap, floatingLeg, exerciseRates, new List<double>()) {}
    }
 
@@ -358,7 +358,7 @@ namespace QLNet
    /// </summary>
    public class Floor : CapFloor
    {
-      public Floor(List<CashFlow> floatingLeg, List<double> exerciseRates)
+      public Floor(Leg floatingLeg, List<double> exerciseRates)
          : base(CapFloorType.Floor, floatingLeg, new List<double>(), exerciseRates) {}
    }
 
@@ -368,7 +368,7 @@ namespace QLNet
    /// </summary>
    public class Collar : CapFloor
    {
-      public Collar(List<CashFlow> floatingLeg, List<double> capRates, List<double> floorRates)
+      public Collar(Leg floatingLeg, List<double> capRates, List<double> floorRates)
          : base(CapFloorType.Collar, floatingLeg, capRates, floorRates) { }
    }
 

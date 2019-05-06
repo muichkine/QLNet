@@ -108,7 +108,7 @@ namespace QLNet
                                                index_.businessDayConvention(),
                                                index_.businessDayConvention(),
                                                DateGeneration.Rule.Forward, false);
-         List<CashFlow> floatingLeg = new IborLeg(floatSchedule, index_)
+         Leg floatingLeg = new IborLeg(floatSchedule, index_)
          .withFixingDays(0)
          .withNotionals(nominals)
          .withPaymentAdjustment(index_.businessDayConvention());
@@ -117,7 +117,7 @@ namespace QLNet
                                                index_.fixingCalendar(),
                                                BusinessDayConvention.Unadjusted, BusinessDayConvention.Unadjusted,
                                                DateGeneration.Rule.Forward, false);
-         List<CashFlow> fixedLeg = new FixedRateLeg(fixedSchedule)
+         Leg fixedLeg = new FixedRateLeg(fixedSchedule)
          .withCouponRates(fixedRate, fixedLegDayCounter_)
          .withNotionals(nominals)
          .withPaymentAdjustment(index_.businessDayConvention());

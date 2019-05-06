@@ -33,7 +33,7 @@ namespace TestSuite
 #endif
    public class T_CashFlows
    {
-      private void CHECK_INCLUSION(int n, int days, bool expected, List<CashFlow> leg, Date today)
+      private void CHECK_INCLUSION(int n, int days, bool expected, Leg leg, Date today)
       {
          if ((!leg[n].hasOccurred(today + days)) != expected)
          {
@@ -43,7 +43,7 @@ namespace TestSuite
          }
       }
 
-      private void CHECK_NPV(bool includeRef, double expected, InterestRate no_discount, List<CashFlow> leg, Date today)
+      private void CHECK_NPV(bool includeRef, double expected, InterestRate no_discount, Leg leg, Date today)
       {
          do
          {
@@ -72,7 +72,7 @@ namespace TestSuite
             Settings.setEvaluationDate(today);
 
             // cash flows at T+0, T+1, T+2
-            List<CashFlow> leg = new List<CashFlow>();
+            Leg leg = new Leg();
 
             for (int i = 0; i < 3; ++i)
                leg.Add(new SimpleCashFlow(1.0, today + i));
@@ -245,7 +245,7 @@ namespace TestSuite
          .withConvention(BusinessDayConvention.Unadjusted)
          .backwards().value();
 
-         List<CashFlow> leg = new FixedRateLeg(schedule)
+         Leg leg = new FixedRateLeg(schedule)
          .withCouponRates(0.03, new Actual360())
          .withPaymentCalendar(new TARGET())
          .withNotionals(100.0)
@@ -282,7 +282,7 @@ namespace TestSuite
          .backwards().value();
 
          IborIndex index = new USDLibor(new Period(6, TimeUnit.Months));
-         List<CashFlow> leg = new IborLeg(schedule, index)
+         Leg leg = new IborLeg(schedule, index)
          // this can happen with default values, and caused an
          // exception when the null was not managed properly
          .withFixingDays(null)

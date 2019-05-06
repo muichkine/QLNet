@@ -113,7 +113,7 @@ namespace QLNet
       {
          double income = 0.0;
          Date settlement = settlementDate();
-         List<CashFlow> cf = fixedCouponBond_.cashflows();
+         Leg cf = fixedCouponBond_.cashflows();
 
          /*
            the following assumes

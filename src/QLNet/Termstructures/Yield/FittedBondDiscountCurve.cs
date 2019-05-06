@@ -257,7 +257,7 @@ namespace QLNet
 
                   // CleanPrice_i = sum( cf_k * d(t_k) ) - accruedAmount
                   double modelPrice = 0.0;
-                  List<CashFlow> cf = bond.cashflows();
+                  Leg cf = bond.cashflows();
                   for (int k = firstCashFlow_[i]; k < cf.Count; ++k)
                   {
                      double tenor = dc.yearFraction(refDate, cf[k].date());
@@ -330,7 +330,7 @@ namespace QLNet
             for (int i = 0; i < curve_.bondHelpers_.Count; ++i)
             {
                Bond bond = curve_.bondHelpers_[i].bond();
-               List<CashFlow> cf = bond.cashflows();
+               Leg cf = bond.cashflows();
                Date bondSettlement = bond.settlementDate();
                for (int k = 0; k < cf.Count; ++k)
                {

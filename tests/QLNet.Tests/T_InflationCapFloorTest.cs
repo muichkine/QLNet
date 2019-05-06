@@ -163,7 +163,7 @@ namespace TestSuite
          }
 
          // utilities
-         public List<CashFlow> makeYoYLeg(Date startDate, int length)
+         public Leg makeYoYLeg(Date startDate, int length)
          {
             YoYInflationIndex ii = iir as YoYInflationIndex;
             Date endDate = calendar.advance(startDate, new Period(length, TimeUnit.Years), BusinessDayConvention.Unadjusted);
@@ -217,7 +217,7 @@ namespace TestSuite
 
 
          public YoYInflationCapFloor makeYoYCapFloor(CapFloorType type,
-                                                     List<CashFlow> leg,
+                                                     Leg leg,
                                                      double strike,
                                                      double volatility,
                                                      int which)
@@ -285,7 +285,7 @@ namespace TestSuite
                      for (int l = 0; l < vols.Length; l++)
                      {
 
-                        List<CashFlow> leg = vars.makeYoYLeg(vars.evaluationDate, lengths[i]);
+                        Leg leg = vars.makeYoYLeg(vars.evaluationDate, lengths[i]);
 
                         YoYInflationCapFloor cap = vars.makeYoYCapFloor(CapFloorType.Cap,
                                                                         leg, cap_rates[j], vols[l], whichPricer);
@@ -423,7 +423,7 @@ namespace TestSuite
                   for (int k = 0; k < vols.Length; k++)
                   {
 
-                     List<CashFlow> leg = vars.makeYoYLeg(vars.evaluationDate, lengths[i]);
+                     Leg leg = vars.makeYoYLeg(vars.evaluationDate, lengths[i]);
 
                      Instrument cap = vars.makeYoYCapFloor(CapFloorType.Cap,
                                                            leg, strikes[j], vols[k], whichPricer);
@@ -490,7 +490,7 @@ namespace TestSuite
 
          double K = 0.0295; // one centi-point is fair rate error i.e. < 1 cp
          int j = 2;
-         List<CashFlow> leg = vars.makeYoYLeg(vars.evaluationDate, j);
+         Leg leg = vars.makeYoYLeg(vars.evaluationDate, j);
          Instrument cap = vars.makeYoYCapFloor(CapFloorType.Cap, leg, K, 0.01, whichPricer);
 
          Instrument floor = vars.makeYoYCapFloor(CapFloorType.Floor, leg, K, 0.01, whichPricer);

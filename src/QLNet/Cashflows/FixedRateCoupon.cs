@@ -176,7 +176,7 @@ namespace QLNet
       }
 
       // creator
-      public override List<CashFlow> value()
+      public override Leg value()
       {
 
          if (couponRates_.Count == 0)
@@ -184,7 +184,7 @@ namespace QLNet
          if (notionals_.Count == 0)
             throw new ArgumentException("no nominals given");
 
-         List<CashFlow> leg = new List<CashFlow>();
+         Leg leg = new Leg();
 
          Calendar schCalendar = schedule_.calendar();
 

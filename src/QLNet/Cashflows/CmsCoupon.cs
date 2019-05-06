@@ -81,7 +81,7 @@ namespace QLNet
          zeroPayments_ = false;
       }
 
-      public override List<CashFlow> value()
+      public override Leg value()
       {
          return CashFlowVectors.FloatingLeg<SwapIndex, CmsCoupon, CappedFlooredCmsCoupon>(
                    notionals_, schedule_, index_ as SwapIndex, paymentDayCounter_, paymentAdjustment_, fixingDays_, gearings_, spreads_, caps_, floors_, inArrears_, zeroPayments_);

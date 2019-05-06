@@ -386,7 +386,7 @@ namespace QLNet
 
    partial class Utils
    {
-      public static void setCouponPricer(List<CashFlow> leg, FloatingRateCouponPricer pricer)
+      public static void setCouponPricer(Leg leg, FloatingRateCouponPricer pricer)
       {
          PricerSetter setter = new PricerSetter(pricer);
          foreach (CashFlow cf in leg)
@@ -395,7 +395,7 @@ namespace QLNet
          }
       }
 
-      public static void setCouponPricers(List<CashFlow> leg, List<FloatingRateCouponPricer> pricers)
+      public static void setCouponPricers(Leg leg, List<FloatingRateCouponPricer> pricers)
       {
          int nCashFlows = leg.Count;
          Utils.QL_REQUIRE(nCashFlows > 0, () => "no cashflows");

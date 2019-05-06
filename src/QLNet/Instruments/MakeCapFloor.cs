@@ -39,7 +39,7 @@ namespace QLNet
       {
          VanillaSwap swap = makeVanillaSwap_;
 
-         List<CashFlow> leg = swap.floatingLeg();
+         Leg leg = swap.floatingLeg();
          if (firstCapletExcluded_)
             leg.RemoveAt(0);
 

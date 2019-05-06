@@ -509,7 +509,7 @@ namespace QLNet
          arguments.redemption = redemption().amount();
          arguments.redemptionDate = redemption().date();
 
-         List<CashFlow> cfs = cashflows();
+         Leg cfs = cashflows();
 
          arguments.couponDates = new List<Date>(cfs.Count - 1);
          arguments.couponAmounts = new List<double>(cfs.Count - 1);

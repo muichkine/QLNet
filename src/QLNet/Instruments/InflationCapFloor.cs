@@ -44,7 +44,7 @@ namespace QLNet
 
    public class YoYInflationCapFloor : Instrument
    {
-      public YoYInflationCapFloor(CapFloorType type, List<CashFlow> yoyLeg,  List<double> capRates, List<double> floorRates)
+      public YoYInflationCapFloor(CapFloorType type, Leg yoyLeg,  List<double> capRates, List<double> floorRates)
       {
          type_ = type;
          yoyLeg_ = yoyLeg;
@@ -71,7 +71,7 @@ namespace QLNet
 
       }
 
-      public YoYInflationCapFloor(CapFloorType type, List<CashFlow> yoyLeg,  List<double> strikes)
+      public YoYInflationCapFloor(CapFloorType type, Leg yoyLeg,  List<double> strikes)
       {
          type_ = type;
          yoyLeg_ = yoyLeg;
@@ -159,7 +159,7 @@ namespace QLNet
       public CapFloorType type() { return type_; }
       public  List<double> capRates()  { return capRates_; }
       public  List<double> floorRates()  { return floorRates_; }
-      public  List<CashFlow> yoyLeg()  { return yoyLeg_; }
+      public  Leg yoyLeg()  { return yoyLeg_; }
 
       public Date startDate() {return CashFlows.startDate(yoyLeg_);}
       public Date maturityDate() { return CashFlows.maturityDate(yoyLeg_);}
@@ -172,7 +172,7 @@ namespace QLNet
       public YoYInflationCapFloor optionlet(int i)
       {
          Utils.QL_REQUIRE(i < yoyLeg().Count, () => " optionlet does not exist, only " + yoyLeg().Count);
-         List<CashFlow> cf = new List<CashFlow>();
+         Leg cf = new Leg();
          cf.Add(yoyLeg()[i]);
 
          List<double> cap = new List<double>(), floor = new List<double>();
@@ -205,7 +205,7 @@ namespace QLNet
       }
 
       private CapFloorType type_;
-      private List<CashFlow> yoyLeg_;
+      private Leg yoyLeg_;
       private List<double> capRates_;
       private List<double> floorRates_;
 
@@ -269,7 +269,7 @@ namespace QLNet
    /*! \ingroup instruments */
    public class YoYInflationCap : YoYInflationCapFloor
    {
-      public YoYInflationCap(List<CashFlow> yoyLeg, List<double> exerciseRates)
+      public YoYInflationCap(Leg yoyLeg, List<double> exerciseRates)
          : base(CapFloorType.Cap, yoyLeg, exerciseRates, new List<double>())
       {}
    }
@@ -278,7 +278,7 @@ namespace QLNet
    /*! \ingroup instruments */
    public class YoYInflationFloor : YoYInflationCapFloor
    {
-      public YoYInflationFloor(List<CashFlow> yoyLeg, List<double> exerciseRates)
+      public YoYInflationFloor(Leg yoyLeg, List<double> exerciseRates)
          : base(CapFloorType.Floor, yoyLeg, new List<double>(), exerciseRates)
       {}
    }
@@ -287,7 +287,7 @@ namespace QLNet
    /*! \ingroup instruments */
    public class YoYInflationCollar : YoYInflationCapFloor
    {
-      public YoYInflationCollar(List<CashFlow> yoyLeg, List<double> capRates,  List<double> floorRates)
+      public YoYInflationCollar(Leg yoyLeg, List<double> capRates,  List<double> floorRates)
          : base(CapFloorType.Collar, yoyLeg, capRates, floorRates) {}
    }
 

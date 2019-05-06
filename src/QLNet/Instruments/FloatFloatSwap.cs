@@ -143,8 +143,8 @@ namespace QLNet
       public BusinessDayConvention paymentConvention1() { return paymentConvention1_; }
       public BusinessDayConvention paymentConvention2() { return paymentConvention2_; }
 
-      public List<CashFlow> leg1() { return legs_[0]; }
-      public List<CashFlow> leg2() { return legs_[1]; }
+      public Leg leg1() { return legs_[0]; }
+      public Leg leg2() { return legs_[1]; }
 
       // other
       public override void setupArguments(IPricingEngineArguments args)
@@ -161,8 +161,8 @@ namespace QLNet
          arguments.index1 = index1_;
          arguments.index2 = index2_;
 
-         List<CashFlow> leg1Coupons = leg1();
-         List<CashFlow> leg2Coupons = leg2();
+         Leg leg1Coupons = leg1();
+         Leg leg2Coupons = leg2();
 
          arguments.leg1ResetDates = arguments.leg1PayDates =
                                        arguments.leg1FixingDates = new InitializedList<Date>(leg1Coupons.Count);

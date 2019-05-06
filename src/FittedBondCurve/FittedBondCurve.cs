@@ -266,7 +266,7 @@ namespace FittedBondCurve
             for (int i = 0; i < instrumentsA.Count; i++)
             {
 
-               List<CashFlow> cfs = instrumentsA[i].bond().cashflows();
+               Leg cfs = instrumentsA[i].bond().cashflows();
 
                int cfSize = instrumentsA[i].bond().cashflows().Count;
                List<Date> keyDates = new List<Date>();
@@ -342,7 +342,7 @@ namespace FittedBondCurve
 
             for (int i = 0; i < instrumentsA.Count; i++)
             {
-               List<CashFlow> cfs = instrumentsA[i].bond().cashflows();
+               Leg cfs = instrumentsA[i].bond().cashflows();
 
                int cfSize = instrumentsA[i].bond().cashflows().Count;
                List<Date> keyDates = new List<Date>();
@@ -473,7 +473,7 @@ namespace FittedBondCurve
 
             for (int i = 0; i < instrumentsA.Count; i++)
             {
-               List<CashFlow> cfs = instrumentsA[i].bond().cashflows();
+               Leg cfs = instrumentsA[i].bond().cashflows();
 
                int cfSize = instrumentsA[i].bond().cashflows().Count;
                List<Date> keyDates = new List<Date>();
@@ -544,7 +544,7 @@ namespace FittedBondCurve
 
             for (int i = 0; i < instrumentsA.Count; i++)
             {
-               List<CashFlow> cfs = instrumentsA[i].bond().cashflows();
+               Leg cfs = instrumentsA[i].bond().cashflows();
 
                int cfSize = instrumentsA[i].bond().cashflows().Count;
                List<Date> keyDates = new List<Date>();

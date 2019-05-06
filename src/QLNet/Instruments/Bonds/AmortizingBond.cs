@@ -191,7 +191,7 @@ namespace QLNet
                                           DateGeneration.Rule.Backward, false);
 
 
-         List<CashFlow> cashflows = new FixedRateLeg(schedule)
+         Leg cashflows = new FixedRateLeg(schedule)
          .withCouponRates(_couponRate, _dCounter)
          .withPaymentCalendar(_calendar)
          .withNotionals(_faceValue)

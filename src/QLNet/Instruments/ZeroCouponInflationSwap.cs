@@ -136,9 +136,9 @@ namespace QLNet
          // N.B. the -1.0 is because swaps only exchange growth, not notionals as well
          double fixedAmount = nominal * (Math.Pow(1.0 + fixedRate, T) - 1.0);
 
-         legs_[0].Add(new SimpleCashFlow(fixedAmount, fixedPayDate));
+         legs_[0].Append(new SimpleCashFlow(fixedAmount, fixedPayDate));
          bool growthOnly = true;
-         legs_[1].Add(new IndexedCashFlow(nominal, infIndex, baseDate_, obsDate_, infPayDate, growthOnly));
+         legs_[1].Append(new IndexedCashFlow(nominal, infIndex, baseDate_, obsDate_, infPayDate, growthOnly));
 
          for (int j = 0; j<2; ++j)
          {
@@ -179,9 +179,9 @@ namespace QLNet
       public Calendar inflationCalendar()  { return infCalendar_; }
       public BusinessDayConvention inflationConvention()  { return infConvention_; }
       //! just one cashflow (that is not a coupon) in each leg
-      public List<CashFlow> fixedLeg() { return legs_[0]; }
+      public Leg fixedLeg() { return legs_[0]; }
       //! just one cashflow (that is not a coupon) in each leg
-      public List<CashFlow> inflationLeg() { return legs_[1]; }
+      public Leg inflationLeg() { return legs_[1]; }
 
       #endregion
 

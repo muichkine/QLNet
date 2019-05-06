@@ -1050,7 +1050,7 @@ namespace TestSuite
          bond.setPricingEngine(bondEngine);
 
          // Calculate Monthly Expecting Cashflow
-         List<CashFlow> cf = bond.expectedCashflows();
+         Leg cf = bond.expectedCashflows();
 
          // Outstanding Balance
          int i = 0;
@@ -1211,7 +1211,7 @@ namespace TestSuite
             AmortizingFixedRateBond myBond = new AmortizingFixedRateBond(0,
                                                                          new NullCalendar(), 100.0, refDate, new Period(30, TimeUnit.Years), freq, rates[i], new ActualActual(ActualActual.Convention.ISMA));
 
-            List<CashFlow> cashflows = myBond.cashflows();
+            Leg cashflows = myBond.cashflows();
 
             List<double> notionals = myBond.notionals();
 
@@ -1523,7 +1523,7 @@ namespace TestSuite
                                                 dc, BusinessDayConvention.Unadjusted, 100.0,
                                                 issueDate, calendar, exCouponPeriod, calendar);
 
-         List<CashFlow> leg = bond.cashflows();
+         Leg leg = bond.cashflows();
 
          test_case[] cases =
          {
@@ -1661,7 +1661,7 @@ namespace TestSuite
                                                              DateGeneration.Rule.Forward, true, firstCouponDate),
                                                 new InitializedList<double>(1, coupon), dc, BusinessDayConvention.Unadjusted, 100.0, issueDate, calendar, exCouponPeriod, new NullCalendar());
 
-         List<CashFlow> leg = bond.cashflows();
+         Leg leg = bond.cashflows();
 
          test_case[] cases =
          {
