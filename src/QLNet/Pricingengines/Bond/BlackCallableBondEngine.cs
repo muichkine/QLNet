@@ -151,8 +151,7 @@ namespace QLNet
          if (frequency == Frequency.NoFrequency || frequency == Frequency.Once)
             frequency = Frequency.Annual;
 
-         double fwdYtm = CashFlows.yield(fixedLeg,
-                                         fwdNpv,
+         double fwdYtm = fixedLeg.yield( fwdNpv,
                                          dayCounter,
                                          Compounding.Compounded,
                                          frequency,
@@ -161,8 +160,7 @@ namespace QLNet
 
          InterestRate fwdRate = new InterestRate(fwdYtm, dayCounter, Compounding.Compounded, frequency);
 
-         double fwdDur = CashFlows.duration(fixedLeg,
-                                            fwdRate,
+         double fwdDur = fixedLeg.duration( fwdRate,
                                             Duration.Type.Modified, false,
                                             exerciseDate);
 

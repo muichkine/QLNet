@@ -103,13 +103,13 @@ namespace QLNet
 
                if (!arguments_.legs[i].empty())
                {
-                  Date d1 = CashFlows.startDate(arguments_.legs[i]);
+                  Date d1 = arguments_.legs[i].startDate();
                   if (d1 >= refDate)
                      results_.startDiscounts[i] = discountCurve_.link.discount(d1);
                   else
                      results_.startDiscounts[i] = null;
 
-                  Date d2 = CashFlows.maturityDate(arguments_.legs[i]);
+                  Date d2 = arguments_.legs[i].maturityDate();
                   if (d2 >= refDate)
                      results_.endDiscounts[i] = discountCurve_.link.discount(d2);
                   else

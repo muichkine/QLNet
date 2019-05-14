@@ -39,11 +39,11 @@ namespace QLNet
 
       public static Date startDate(Bond bond)
       {
-         return CashFlows.startDate(bond.cashflows());
+         return bond.cashflows().startDate();
       }
       public static Date maturityDate(Bond bond)
       {
-         return CashFlows.maturityDate(bond.cashflows());
+         return bond.cashflows().maturityDate();
       }
       public static bool isTradable(Bond bond, Date settlementDate = null)
       {
@@ -339,7 +339,7 @@ namespace QLNet
          double dirtyPrice = cleanPrice + bond.accruedAmount(settlementDate);
          dirtyPrice /= 100.0 / bond.notional(settlementDate);
 
-         return CashFlows.yield(bond.cashflows(), dirtyPrice,
+         return bond.cashflows().yield(dirtyPrice,
                                 dayCounter, compounding, frequency,
                                 false, settlementDate, settlementDate,
                                 accuracy, maxIterations, guess);
@@ -355,7 +355,7 @@ namespace QLNet
                           " (maturity being " + bond.maturityDate() + ")",
                           QLNetExceptionEnum.NotTradableException);
 
-         return CashFlows.duration(bond.cashflows(), yield, type, false, settlementDate);
+         return bond.cashflows().duration(yield, type, false, settlementDate);
       }
       public static double duration(Bond bond, double yield, DayCounter dayCounter, Compounding compounding, Frequency frequency,
                                     Duration.Type type = Duration.Type.Modified, Date settlementDate = null)

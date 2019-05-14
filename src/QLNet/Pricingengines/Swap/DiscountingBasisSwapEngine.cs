@@ -52,7 +52,7 @@ namespace QLNet
             results_.cash += arguments_.payer[i] * CashFlows.cash(arguments_.legs[i]);
             try
             {
-               Date d = CashFlows.startDate(arguments_.legs[i]);
+               Date d = arguments_.legs[i].startDate();
                startDiscounts[i] = discountCurve_[i].link.discount(d);
             }
             catch
